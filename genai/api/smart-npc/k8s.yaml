@@ -60,10 +60,12 @@ spec:
         env:
         - name: ENV
           value: dev
+        - name: CONFIG_TOML_PATH
+          value: /config/config.toml
         resources:
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: 500m
+            memory: 256Mi
           limits:
             memory: 512Mi
         volumeMounts:
@@ -76,17 +78,19 @@ spec:
       volumes:
       - name: config-volume
         configMap:
-          name: npc-config
-      - name: world-volume
-        configMap:
-          name: world-config
+          name: smart-npc-config
+      # - name: world-volume
+      #   configMap:
+      #     name: world-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: npc-chat-api
-  name: npc-chat-api
+    name: smart-npc-api
+  name: smart-npc-api
+  # annotations:
+  #   networking.gke.io/load-balancer-type: "Internal"
 spec:
   ports:
   - name: http
@@ -94,9 +98,9 @@ spec:
     targetPort: 8080
     protocol: TCP
   selector:
-    name: npc-chat-api
+    name: smart-npc-api
   sessionAffinity: None
-  type: ClusterIP
+  type: LoadBalancer
 # ---
 # apiVersion: autoscaling/v1
 # kind: HorizontalPodAutoscaler

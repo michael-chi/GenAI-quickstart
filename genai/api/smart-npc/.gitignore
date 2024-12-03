@@ -1,0 +1,21 @@
+# Secrets
+config-secret.toml
+
+# Terraform
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+variables.tfvars
+
+# Python Environment
+.venv/
+__pycache__/
+run.log
+
+# NodeJS
+node_modules/
+
+# Dev
+test/
+config.toml
+config.gcp.toml.template

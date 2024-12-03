@@ -1,0 +1,20 @@
+[NARR()]Erika and Viva step into the old shop and take in the rich aroma that delightfully tickles their senses.
+[CHAR(Erika:SL3, Viva:SL1:Happy)]This smells sooo good!
+[CHAR(Erika:Think)]Yeah and so familiar. Like home.
+[CHAR(Erika:Neutral, Viva:Neutral, Cap:SL2:Neutral)]I see 3... no, 4 health-code violations.
+[CHAR(Cap:Happy, Viva:Happy, Erika:Happy)]Wanna check this out?
+[NARR()]Viva nods happily. Cap remains reluctant, but his stomach betrays him by growling.
+[CHAR(Viva:Neutral, Erika:Neutral, Cap:Neutral, Chuck:SR2:Happy:Erika)]Welcome to Chuck's! Juiciest chops in town! I'm <style=key>Chuck</style>. What can I get you, three specials?
+[CHAR(Viva:Happy)]What's in the special?
+[CHAR(Chuck:Neutral)]Pan-roasted fowl and crispy taters with a wine and mushroom reduction.
+[CHAR(Cap:Think:EmojiQuestion, Erika:Think:EmojiQuestion)]What's that?
+[CHAR(Erika:Neutral, Cap:Neutral, Viva:Happy)]Chicken chop, fries and brown sauce. But better!
+[CHAR(Cap)]How did you know that?
+[CHAR(Viva:Happy)]My parents don’t cook, so we eat out a lot. (shyly) I guess I'm a bit of a foodie.
+[CHAR(Erika:Happy)]You had me at chicken chop.
+[CHAR(Cap:Neutral)]I'm not sure...
+[NARR()]Erika is amused. Cap's saying one thing, but his growling stomach is saying another.
+[CHAR(Viva:Happy:Cap)]Think of it like when you play your games. We need to eat to increase our HP.
+[CHAR(Cap:Frown)]But this isn’t a game...
+[CHAR(Cap:Happy:EmojiSparkle)]Wait. Are you a gamer?!
+[CHAR(Erika:Neutral, Viva)]A little. I like relaxing games. Have you heard of Zen Koi?

@@ -1,10 +1,10 @@
-# Copyright 2023 Google LLC All Rights Reserved.
+# Copyright 2024 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,25 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-terraform {
-  required_providers {
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.23.0"
-    }
-    google = {
-      source  = "hashicorp/google"
-      version = "< 7.0.0"
-    }
-  }
+"""Player information helper methods
+"""
 
-  # TODO: Use this to store the TF state file in GCS
-  # backend "gcs" {
-  #   bucket = "BUCKET_NAME"
-  #   prefix = "bkt-tfstate"
-  # }
-}
+def get_player_info() -> str:
+    """Get Player's information
+    Note:
+        This implementation uses a static file for player's information.
 
-provider "google" {
-  project = var.project_id
-}
+    TODO:
+        Migrating the player info to cache and database.
+    """
+    with open("data/player.txt", "r", encoding="utf-8") as f:
+        return f.read()

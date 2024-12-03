@@ -1,0 +1,17 @@
+# Python Environment
+.venv/
+__pycache__/
+run.log
+
+# NodeJS
+node_modules/
+
+# Dev
+npc.md
+test/
+test_*.py
+npc-bot-js/
+doc-processor/
+minecraft-server/
+temp/
+*/img/*.png

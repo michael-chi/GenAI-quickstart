@@ -93,7 +93,9 @@ gcloud services enable --project ${PROJECT_ID:?} \
   containerregistry.googleapis.com \
   iam.googleapis.com \
   servicecontrol.googleapis.com \
-  spanner.googleapis.com
+  spanner.googleapis.com \
+  secretmanager.googleapis.com \
+  redis.googleapis.com
 ```
 
 ### 5) Deploy infrastructure with Terraform
