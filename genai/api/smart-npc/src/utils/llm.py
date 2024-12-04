@@ -22,7 +22,7 @@ import json
 
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
 from vertexai.preview import generative_models
-from vertexai.generative_models import GenerativeModel, GenerationResponse
+from vertexai.generative_models import GenerativeModel, GenerationResponse, Content, Part
 from utils.cacheWrapper import CacheFactory
 from utils.chatCache import ChatCacheWrapper
 from utils.quickstartWrapper import quick_start_wrapper
@@ -232,12 +232,34 @@ def multiturn_generate_content_v3(
     resp = GenerationResponse.from_dict(answer)
     print(f"*GenerationResponse={answer}")
     print(f"****** add chat to cache:{session_id} ******")
+    if history is None:
+        history =  []
+    history.append(
+            Content.from_dict(
+            {
+                "role":"user",
+                "parts":[
+                    {"text":query}
+                ]
+            }
+        )
+    )
+    history.append(
+            Content.from_dict(
+            {
+                "role":"model",
+                "parts":[
+                    {"text":result}
+                ]
+            }
+        )
+    )
     chatCache.set_chat_session(
         session_id=session_id,
         scene_id=scene,
         npc_id=npc_id,
         player_id=speaker_id,
-        history=chat.history
+        history=history
     )
     return resp, history
 
