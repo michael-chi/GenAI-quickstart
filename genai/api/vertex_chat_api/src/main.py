@@ -60,7 +60,7 @@ logging.debug(f'GCP_REGION:     {GCP_REGION}')
 logging.debug(f'GCP_ZONE:       {GCP_ZONE}')
 
 # Initialize Vertex LLM Model
-model_vertex_llm_chat = Google_Cloud_GenAI(GCP_PROJECT_ID, GCP_REGION=GCP_REGION, MODEL_TYPE='chat-bison')
+model_vertex_llm_chat = Google_Cloud_GenAI(GCP_PROJECT_ID, GCP_REGION=GCP_REGION, MODEL_TYPE='gemini')
 
 headers = {"Content-Type": "application/json"}
 

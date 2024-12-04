@@ -22,9 +22,10 @@ import json
 
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
 from vertexai.preview import generative_models
-from vertexai.generative_models import GenerativeModel
+from vertexai.generative_models import GenerativeModel, GenerationResponse
 from utils.cacheWrapper import CacheFactory
 from utils.chatCache import ChatCacheWrapper
+from utils.quickstartWrapper import quick_start_wrapper
 
 EMBEDDING_MODEL_NAME = "text-multilingual-embedding-002"
 TEXT_GENERATION_MODEL_NAME = "gemini-1.5-flash-001"
@@ -157,38 +158,7 @@ def get_chat_history(npc_id:str, speaker_id:str) -> str:
     else:
         return ""
 
-# def format_session_id(scene_id:str, npc_id:str, player_id:str, session_id:str) -> str:
-#     if scene_id == "":
-#         session_id = f"{npc_id.upper()}_{player_id.upper()}_{session_id}"
-#     else:
-#         session_id = f"{scene_id.upper()}_{session_id}"
-#     return session_id
-
-# def get_chat_session(scene_id, session_id, npc_id, player_id, config) -> any:
-#     cache = CacheFactory(config).get_cache("scene")
-#     session = cache.get(
-#         format_session_id(
-#             scene_id=scene_id,
-#             npc_id=npc_id,
-#             player_id=player_id,
-#             session_id=session_id)
-#     )
-#     return session
-
-# def set_chat_session(scene_id, session_id, npc_id, player_id, config, chat) -> str:
-#     cache = CacheFactory(config).get_cache("scene")
-#     key = format_session_id(
-#             scene_id=scene_id,
-#             npc_id=npc_id,
-#             player_id=player_id,
-#             session_id=session_id)
-#     cache.set(
-#         key,
-#         chat.history
-#     )
-#     return key
-
-def multiturn_generate_content(
+def multiturn_generate_content_v3(
         npc_id:str,
         background:str,
         query:str,
@@ -197,7 +167,8 @@ def multiturn_generate_content(
         config:dict,
         generation_config=None,
         safety_settings=None,
-        scene:str=""
+        scene:str="",
+        model_name:str=FLASH_MODEL_NAME
     ):
     """Generate Multi-turn response
 
@@ -227,40 +198,19 @@ def multiturn_generate_content(
             generative_models.HarmCategory.HARM_CATEGORY_HARASSMENT: generative_models.HarmBlockThreshold.BLOCK_NONE,  # pylint: disable=line-too-long
         }
 
-    # if scene == "":
-    #     session_id = f"{npc_id.upper()}_{speaker_id.upper()}_{session_id}"
-    # else:
-    #     session_id = f"{scene.upper()}_{session_id}"
-
-    # if _chat_sessions is None or _chat_sessions == {}:
-    #     _chat_sessions = {}
-
-    # chat = get_chat_session(
-    #     scene_id=scene,
-    #     session_id=session_id,
-    #     npc_id=npc_id,
-    #     player_id=speaker_id,
-    #     config=config
-    # )
-
-    # if chat is not None:
-    #     # chat = _chat_sessions[session_id]
-    #     print(f"****** retrieve chat from cache:{session_id} ******")
-    #     print(os.linesep.join([c.text for c in chat.history]))
-    # else:
     history = chatCache.get_chat_session(
         session_id=session_id,
         scene_id=scene,
         npc_id=npc_id,
         player_id=speaker_id
     )
-    model = GenerativeModel(
-        TEXT_GENERATION_MODEL_NAME,
-        system_instruction=[background]
+    model = quick_start_wrapper(
+        model_name=model_name,
+        system_instruction=background,
     )
 
     chat = model.start_chat(history=history)
-        
+
     # _chat_sessions[session_id] = chat
 
     result = chat.send_message(
@@ -268,6 +218,19 @@ def multiturn_generate_content(
       generation_config=generation_config,
       safety_settings=safety_settings
     )
+    answer = {
+        "candidates": [
+            {
+                "content":{
+                    "parts":[
+                        {"text":result}
+                    ]
+                }
+            }
+        ]
+    }
+    resp = GenerationResponse.from_dict(answer)
+    print(f"*GenerationResponse={answer}")
     print(f"****** add chat to cache:{session_id} ******")
     chatCache.set_chat_session(
         session_id=session_id,
@@ -276,7 +239,7 @@ def multiturn_generate_content(
         player_id=speaker_id,
         history=chat.history
     )
-    return result
+    return resp, history
 
 def multiturn_generate_content_v2(
         npc_id:str,
@@ -318,7 +281,6 @@ def multiturn_generate_content_v2(
             generative_models.HarmCategory.HARM_CATEGORY_HARASSMENT: generative_models.HarmBlockThreshold.BLOCK_NONE,  # pylint: disable=line-too-long
         }
 
-    
     history = chatCache.get_chat_session(
         session_id=session_id,
         scene_id=scene,
@@ -330,9 +292,9 @@ def multiturn_generate_content_v2(
         system_instruction=[background]
     )
 
-    
+
     chat = model.start_chat(history=history)
-        
+
     # _chat_sessions[session_id] = chat
 
     result = chat.send_message(

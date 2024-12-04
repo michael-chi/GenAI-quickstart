@@ -194,7 +194,7 @@ and then navigate to the URL in your browser.
 Test the API using `curl`:
 
 ```
-curl -X 'POST' "http://${EXT_IP}/genai" \
+curl -X 'POST' "http://${EXT_IP}/genai/chat/" \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{"prompt": "Who are the founders of Google?"}'

@@ -36,7 +36,13 @@ from models.scence import (
 
 from utils.cacheWrapper import CacheWrapper
 from utils.database import DataConnection
-from utils.llm import multiturn_generate_content, verify_message_syntax, multiturn_generate_content_v2, FLASH_MODEL_NAME, PRO_MODEL_NAME
+from utils.llm import (
+    verify_message_syntax,
+    multiturn_generate_content_v2,
+    multiturn_generate_content_v3,
+    FLASH_MODEL_NAME,
+    PRO_MODEL_NAME
+)
 from utils.conversationSession import conversationSessions
 from routers.npc import get_npc
 
@@ -173,8 +179,8 @@ def chat(req:NPCSceneConversationRequest) -> NPCSceneConversationResponse:
                 CONVERSATION_EXAMPLE=get_conversation_example(req.scene_id),
                 CURRENT_SCENE=get_scence(req.scene_id).scene,
                 NON_PLAYER_CHARACTERS=npc_in_the_scene)
-    
-    answer, history = multiturn_generate_content_v2(
+
+    answer, history = multiturn_generate_content_v3(
         npc_id=req.npc_id,
         background=prompt,
         query=req.sentence,
@@ -185,7 +191,7 @@ def chat(req:NPCSceneConversationRequest) -> NPCSceneConversationResponse:
         model_name=FLASH_MODEL_NAME
     )
 
-    # print(f"=== PROMPT ===\n{prompt}\n==============")
+    print(f"=== answer ===\n{answer}\n==============")
     json_answer_text = answer.candidates[0].content.parts[0].text.replace("```json", "").replace("```", "") # pylint: disable=line-too-long
     print(f"==RESULT==\n{json_answer_text}\n=======")
     json_answer_text = verify_message_syntax(

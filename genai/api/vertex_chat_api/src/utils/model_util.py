@@ -18,11 +18,11 @@ import requests
 import vertexai
 from vertexai.language_models import TextGenerationModel, ChatModel, CodeGenerationModel, CodeChatModel, InputOutputTextPair
 from vertexai.preview.vision_models import Image, ImageGenerationModel
-
+from vertexai.generative_models import GenerativeModel
 
 class Google_Cloud_GenAI:
 
-    def __init__(self, GCP_PROJECT_ID, GCP_REGION,  MODEL_TYPE):
+    def __init__(self, GCP_PROJECT_ID, GCP_REGION,  MODEL_TYPE, system_prompt:str=""):
         if GCP_PROJECT_ID=="":
             print(f'[ WARNING ] GCP_PROJECT_ID ENV variable is empty. Be sure to set the GCP_PROJECT_ID ENV variable.')
 
@@ -47,9 +47,11 @@ class Google_Cloud_GenAI:
             self.model = CodeGenerationModel.from_pretrained(self.pretrained_model)
         elif MODEL_TYPE.lower() == 'codechat-bison':
             self.model = CodeChatModel.from_pretrained(self.pretrained_model)
+        elif MODEL_TYPE.lower() == 'gemini':
+            self.model = None
         else:
             # MODEL_TYPE can be "text-bison", "chat-bison", "code-bison", or "codechat-bison"
-            print(f'[ ERROR ] No MODEL_TYPE specified or MODEL_TYPE is incorrect. Expecting MODEL_TYPE ENV var of "text-bison", "chat-bison", "code-bison", or "codechat-bison".')
+            print(f'[ ERROR ] No MODEL_TYPE specified or MODEL_TYPE ({MODEL_TYPE}) is incorrect. Expecting MODEL_TYPE ENV var of "text-bison", "chat-bison", "code-bison", or "codechat-bison".')
             sys.exit()
 
     def call_llm(self, prompt, temperature=0.2, max_output_tokens=256, top_p=0.8, top_k=40, context='', chat_examples=[], message_history=[], code_suffix=''):
@@ -70,7 +72,21 @@ class Google_Cloud_GenAI:
             except Exception as e:
                 print(f'[ EXCEPTION ] At call_llm for text-bison. {e}')
                 return ''
+        elif self.MODEL_TYPE.lower() == 'gemini':
+            try:
+                self.model = GenerativeModel(
+                    "gemini-1.5-flash-001",
+                    system_instruction=[context]
+                )
+                chat = self.model.start_chat(
+                    history=message_history
+                )
 
+                response = chat.send_message(prompt)
+                return response
+            except Exception as e:
+                print(f'[ EXCEPTION ] At call_chat for chat-bison. {e}')
+                return ''
         elif self.MODEL_TYPE.lower() == 'chat-bison':
             try:
                 '''
@@ -124,7 +140,6 @@ class Google_Cloud_GenAI:
             except Exception as e:
                 print(f'[ EXCEPTION ] At call_chat for codechat-bison. {e}')
                 return ''
-
 
 class Google_Cloud_Imagen:
     '''

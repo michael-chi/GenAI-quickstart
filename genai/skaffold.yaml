@@ -36,35 +36,35 @@ requires:
 - configs: ["genai-api-cfg"]
   path: ./api/genai_api/skaffold.yaml
 
-# - configs: ["stable-diffusion-api-cfg"]
-#   path: ./api/stable_diffusion_api/skaffold.yaml
+- configs: ["stable-diffusion-api-cfg"]
+  path: ./api/stable_diffusion_api/skaffold.yaml
 
 - configs: ["vertex-gemini-api-cfg"]
   path: ./api/vertex_gemini_api/skaffold.yaml
 
-# - configs: ["vertex-chat-api-cfg"]
-#   path: ./api/vertex_chat_api/skaffold.yaml
+- configs: ["vertex-chat-api-cfg"]
+  path: ./api/vertex_chat_api/skaffold.yaml
 
-# - configs: ["vertex-code-api-cfg"]
-#   path: ./api/vertex_code_api/skaffold.yaml
+- configs: ["vertex-code-api-cfg"]
+  path: ./api/vertex_code_api/skaffold.yaml
 
-# - configs: ["vertex-image-api-cfg"]
-#   path: ./api/vertex_image_api/skaffold.yaml
+- configs: ["vertex-image-api-cfg"]
+  path: ./api/vertex_image_api/skaffold.yaml
 
-# - configs: ["vertex-text-api-cfg"]
-#   path: ./api/vertex_text_api/skaffold.yaml
+- configs: ["vertex-text-api-cfg"]
+  path: ./api/vertex_text_api/skaffold.yaml
 
-# - configs: ["stable-diffusion-endpt-cfg"]
-#   path: ./image/stable_diffusion/skaffold.yaml
+- configs: ["stable-diffusion-endpt-cfg"]
+  path: ./image/stable_diffusion/skaffold.yaml
 
 - configs: ["embeddings-api-cfg"]
   path: ./language/embeddings/skaffold.yaml
 
-# - configs: ["huggingface-tgi-endpt-cfg"]
-#   path: ./language/huggingface_tgi/skaffold.yaml
+- configs: ["huggingface-tgi-endpt-cfg"]
+  path: ./language/huggingface_tgi/skaffold.yaml
 
-# - configs: ["npc-chat-api-cfg"]
-#   path: ./api/npc_chat_api/skaffold.yaml
+- configs: ["npc-chat-api-cfg"]
+  path: ./api/npc_chat_api/skaffold.yaml
 
 - configs: ["api-caller-build"]
   path: ./api_caller/skaffold.yaml

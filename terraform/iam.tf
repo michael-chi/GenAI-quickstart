@@ -48,6 +48,7 @@ module "member_roles_gke_cluster" {
     "roles/monitoring.viewer",
     "roles/stackdriver.resourceMetadata.writer",
     "roles/cloudtrace.agent",
+    "roles/secretmanager.secretAccessor"
   ]
 }
 
@@ -78,6 +79,20 @@ module "member_roles_gke_aiplatform" {
     "roles/aiplatform.user",
     "roles/storage.objectUser",
     "roles/spanner.databaseUser",
+    "roles/secretmanager.secretAccessor",
+    # Cloud SQL Client
+    "roles/cloudsql.client",
+    # Log Writer
+    "roles/logging.logWriter",
+    # Able to upload and download conversation logs from GCS
+    "roles/storage.objectCreator",
+    "roles/storage.objectViewer",
+    # Need storage.objects.delete
+    "roles/storage.objectAdmin",
+    # For Gen2 cloud functions invoker
+    "roles/run.invoker",
+    # For deploying to Cloud Run using this service account
+    "roles/iam.serviceAccountUser",
   ]
 }
 

@@ -18,20 +18,19 @@ metadata:
   name: smart-npc-config
 data:
   config.toml: |
-    [gcp]
-    database_password_key = "pgvector-password"
-    database_private_ip_address = "10.44.0.2"
-    database_public_ip_address = "35.223.82.105"
-    database_user_name = "llmuser"
-    google-default-region = "us-central1"
-    google-project-id = "kalschi-npc-001"
-    image_upload_gcs_bucket = "kalschi-npc-001_images_bucket-bca4"
-    postgres_instance_connection_name = "kalschi-npc-001:us-central1:pgvector-db"
-    cache-server-host = "10.82.121.211"
+    ["gcp"]
+    database_private_ip_address="10.138.0.2"
+    database_public_ip_address="35.239.89.25"
+    postgres_instance_connection_name="kalschi-game-007:us-central1:pgvector-db"
+    database_user_name="llmuser"
+    database_password_key="pgvector-password"
+    google-default-region="us-central1"
+    image_upload_gcs_bucket="kalschi-game-007_images_bucket-b35a"
+    google-project-id="kalschi-game-007"
+    cache-server-host = "10.120.28.67"
     cache-server-port = 6379
-    use-cache-server = "True" # "True"
-    api-key = "O9h5BZGT6wJMrYh51JmM0ryHoYHsZygrY71qtbWjztSwVawkQXXZ56ITFB0fkoix5mGfVduOYSPqSs49EawaspmgdU41v0XvOOoCHWy2r82zg6L4ZeSD4JGoFEQZZQ9o6efIqjuxUQf3O5VlI0msQ5Fagrvj4Klt0kepbg"
-
+    use-cache-server = "True"
+    api-key = "RZWItc@QYtqsBC4xcBpfyCIYT8pYhhhNV1E"
     [sql]
     QUERY_NPC_BY_ID = "select npc_id, background, name, class, class_level, status, lore_level from sls.npc where npc_id='{}'"
     QUERY_NPC_KNOWLEDGE = """

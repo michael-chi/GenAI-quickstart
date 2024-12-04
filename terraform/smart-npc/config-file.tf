@@ -2,7 +2,7 @@
 resource "random_string" "random" {
   length           = 36
   special          = true
-  override_special = "/@£$"
+  override_special = "!@#$%^&*"
 }
 
 locals {
@@ -18,6 +18,7 @@ locals {
         cache-server-host = "${google_redis_instance.cache.host}"
         cache-server-port = 6379
         use-cache-server = "True"
+        google-default-region = "${var.google_default_region}"
         api-key = "${random_string.random.result}"
     EOT
 }
